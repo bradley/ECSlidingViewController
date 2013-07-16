@@ -377,6 +377,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     }];
 }
 
+
 - (void)resetTopViewWithAnimations:(void(^)())animations onComplete:(void(^)())complete
 {
   [self topViewHorizontalCenterWillChange:self.resettedCenter];
