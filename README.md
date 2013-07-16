@@ -1,5 +1,10 @@
-# ECSlidingViewController
+# ECSlidingViewController (fork)
 
+## About this Fork
+This fork allows the use of UINavigationControllers for the UnderRight and UnderLeft views.
+
+
+## About ECSlidingViewController
 `ECSlidingViewController` is a view controller container for iOS that presents its child view controllers in two layers. It provides functionality for sliding the top view to reveal the views underneath it. This functionality is inspired by the Path 2.0 and Facebook iPhone apps.
 
 <iframe src="http://player.vimeo.com/video/35959384?title=0&amp;byline=0&amp;portrait=0" width="400" height="300" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe><p><a href="http://vimeo.com/35959384">ECSlidingViewController Demo</a> from <a href="http://vimeo.com/user5026288">EdgeCase</a> on <a href="http://vimeo.com">Vimeo</a>.</p>
