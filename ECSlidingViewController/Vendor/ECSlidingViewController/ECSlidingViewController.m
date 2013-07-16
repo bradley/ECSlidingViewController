@@ -514,7 +514,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     [self.underRightView removeFromSuperview];//self.underRightView.hidden = YES;
 
     [self.underLeftViewController viewWillAppear:NO];
-    [self.view insertSubview:self.underLeftView atIndex:0];// self.underLeftView.hidden = NO;
+    [self.view insertSubview:self.underLeftView belowSubview:self.topView];// self.underLeftView.hidden = NO;
     [self updateUnderLeftLayout];
     _underLeftShowing  = YES;
     _underRightShowing = NO;
@@ -527,7 +527,7 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
     });
     [self.underLeftView removeFromSuperview]; //self.underLeftView.hidden = YES;
     [self.underRightViewController viewWillAppear:NO];
-    [self.view insertSubview:self.underRightView atIndex:0];//self.underRightView.hidden = NO;
+    [self.view insertSubview:self.underRightView belowSubview:self.topView];//self.underRightView.hidden = NO;
     [self updateUnderRightLayout];
     _underLeftShowing  = NO;
     _underRightShowing = YES;
