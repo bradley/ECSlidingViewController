@@ -118,34 +118,38 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 
 - (void)setUnderLeftViewController:(UIViewController *)theUnderLeftViewController
 {
-  [_underLeftViewController.view removeFromSuperview];
-  [_underLeftViewController willMoveToParentViewController:nil];
-  [_underLeftViewController removeFromParentViewController];
-  
-  _underLeftViewController = theUnderLeftViewController;
-  
-  if (_underLeftViewController) {
-    [self addChildViewController:self.underLeftViewController];
-    [self.underLeftViewController didMoveToParentViewController:self];
-    
-    [self updateUnderLeftLayout];
-  }
+    [_underLeftViewController.view removeFromSuperview];
+    [_underLeftViewController willMoveToParentViewController:nil];
+    [_underLeftViewController removeFromParentViewController];
+
+    _underLeftViewController = theUnderLeftViewController;
+
+    if (_underLeftViewController) {
+        [self addChildViewController:self.underLeftViewController];
+        [self.underLeftViewController didMoveToParentViewController:self];
+
+        [self updateUnderLeftLayout];
+
+//        [self.view insertSubview:_underLeftViewController.view atIndex:0];
+    }
 }
 
 - (void)setUnderRightViewController:(UIViewController *)theUnderRightViewController
 {
-  [_underRightViewController.view removeFromSuperview];
-  [_underRightViewController willMoveToParentViewController:nil];
-  [_underRightViewController removeFromParentViewController];
-  
-  _underRightViewController = theUnderRightViewController;
-  
-  if (_underRightViewController) {
-    [self addChildViewController:self.underRightViewController];
-    [self.underRightViewController didMoveToParentViewController:self];
-    
-    [self updateUnderRightLayout];
-  }
+    [_underRightViewController.view removeFromSuperview];
+    [_underRightViewController willMoveToParentViewController:nil];
+    [_underRightViewController removeFromParentViewController];
+
+    _underRightViewController = theUnderRightViewController;
+
+    if (_underRightViewController) {
+        [self addChildViewController:self.underRightViewController];
+        [self.underRightViewController didMoveToParentViewController:self];
+
+        [self updateUnderRightLayout];
+
+//        [self.view insertSubview:_underRightViewController.view atIndex:0];
+    }
 }
 
 - (void)setUnderLeftWidthLayout:(ECViewWidthLayout)underLeftWidthLayout
@@ -364,10 +368,13 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 
 - (void)resetTopView
 {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [[NSNotificationCenter defaultCenter] postNotificationName:ECSlidingViewTopWillReset object:self userInfo:nil];
-  });
-  [self resetTopViewWithAnimations:nil onComplete:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:ECSlidingViewTopWillReset object:self userInfo:nil];
+    });
+    [self resetTopViewWithAnimations:nil onComplete:^() {
+        [self.underLeftView removeFromSuperview];
+        [self.underRightView removeFromSuperview];
+    }];
 }
 
 - (void)resetTopViewWithAnimations:(void(^)())animations onComplete:(void(^)())complete
@@ -500,28 +507,30 @@ NSString *const ECSlidingViewTopDidReset             = @"ECSlidingViewTopDidRese
 
 - (void)underLeftWillAppear
 {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [[NSNotificationCenter defaultCenter] postNotificationName:ECSlidingViewUnderLeftWillAppear object:self userInfo:nil];
-  });
-  [self.underRightView removeFromSuperview];
-  [self updateUnderLeftLayout];
-  [self.view insertSubview:self.underLeftView belowSubview:self.topView];
-  _underLeftShowing  = YES;
-  _underRightShowing = NO;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:ECSlidingViewUnderLeftWillAppear object:self userInfo:nil];
+    });
+    [self.underRightView removeFromSuperview];//self.underRightView.hidden = YES;
+
+    [self.underLeftViewController viewWillAppear:NO];
+    [self.view insertSubview:self.underLeftView atIndex:0];// self.underLeftView.hidden = NO;
+    [self updateUnderLeftLayout];
+    _underLeftShowing  = YES;
+    _underRightShowing = NO;
 }
 
 - (void)underRightWillAppear
 {
-  dispatch_async(dispatch_get_main_queue(), ^{
-    [[NSNotificationCenter defaultCenter] postNotificationName:ECSlidingViewUnderRightWillAppear object:self userInfo:nil];
-  });
-  [self.underLeftView removeFromSuperview];
-  [self updateUnderRightLayout];
-  [self.view insertSubview:self.underRightView belowSubview:self.topView];
-  _underLeftShowing  = NO;
-  _underRightShowing = YES;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:ECSlidingViewUnderRightWillAppear object:self userInfo:nil];
+    });
+    [self.underLeftView removeFromSuperview]; //self.underLeftView.hidden = YES;
+    [self.underRightViewController viewWillAppear:NO];
+    [self.view insertSubview:self.underRightView atIndex:0];//self.underRightView.hidden = NO;
+    [self updateUnderRightLayout];
+    _underLeftShowing  = NO;
+    _underRightShowing = YES;
 }
-
 - (void)topDidReset
 {
   dispatch_async(dispatch_get_main_queue(), ^{
